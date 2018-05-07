@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello</title>
+</head>
+<body>
+  <select id='select'>
+  </select>
+  <button id='friends'>Show Friends</button>
+  <button id='friends-of-friends'>Show Friends of Friends</button>
+  <button id='suggested-friends'>Show Suggested Friends</button>
+  <div id='content'></div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+    $(function() {
+      $.getJSON('http://127.0.0.1:3333/api/v1/users', function(result) {
+          var select = $('#select');
+          $('button').val(result[0].id);
+          $.each(result, function(item) {
+              select.append($('<option />').val(result[item].id).text(result[item].first_name + ' ' + result[item].surname));
+          });
+      });
+
+      $('#select').on('change', function() {
+        $('button').val(this.value);
+      })
+
+      $('#friends').on('click', function() {
+        $('#content').empty().html('<br>');
+        $.getJSON('http://127.0.0.1:3333/api/v1/friends/' + this.value, function(result) {
+          var content = $('#content');
+          $.each(result, function(item) {
+              content.append(result[item].first_name + ' ' + result[item].surname + '<br>');
+          });
+        });
+      });
+
+      $('#friends-of-friends').on('click', function() {
+        $('#content').empty().html('<br>');
+        $.getJSON('http://127.0.0.1:3333/api/v1/friends-of-friends/' + this.value, function(result) {
+          var content = $('#content');
+          $.each(result, function(item) {
+              content.append(result[item].first_name + ' ' + result[item].surname + '<br>');
+          });
+        });
+      });
+
+      $('#suggested-friends').on('click', function() {
+        $('#content').empty().html('<br>');
+        $.getJSON('http://127.0.0.1:3333/api/v1/suggested-friends/' + this.value, function(result) {
+          var content = $('#content');
+          $.each(result, function(item) {
+              content.append(result[item].first_name + ' ' + result[item].surname + '<br>');
+          });
+        });
+      });
+
+    });
+  </script>
+</body>
+</html>
