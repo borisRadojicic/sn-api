@@ -21,11 +21,16 @@ adonis new yardstick
 
 or manually clone the repo and then run `npm install`.
 
+### Steps
 
-### Migrations
+- file .env.example sould be renamed into .env and all database parameters
+  should be set according to local database settings
+  
+- the following command should be executed in mySql: create database sn_api;
 
-Run the following command to run startup migrations.
-
-```js
-adonis migration:run
-```
+- in bash or command prompt in root project directory, the following 
+  commands should be executed:
+  - npm install 
+  - npm i -g @adonisjs/cli
+  - adonis migration:run
+  - adonis serve --dev
